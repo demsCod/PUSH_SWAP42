@@ -1,4 +1,4 @@
-CFLAGS = cc -Wall -Wextra -Werror -o
+CFLAGS = cc -Wall -Wextra -Werror -g3 -o
 NAME = push_swap
 
 SRC = 	./srcs/instruction/push_instrucion.c \

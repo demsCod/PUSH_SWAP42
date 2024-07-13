@@ -6,7 +6,7 @@
 /*   By: mdembele <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 22:33:19 by mdembele          #+#    #+#             */
-/*   Updated: 2024/07/11 20:15:51 by mdembele         ###   ########.fr       */
+/*   Updated: 2024/07/12 18:04:40 by mdembele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,5 @@ void	parse_args(char *av, t_stack **list, t_all *all)
 		j++;
 		i--;
 	}
-	print_list(*list);
 	all->n_numbers = i;
 }

@@ -14,9 +14,9 @@ int	main(int ac, char **av)
 			printf("is sorted\n");
 		else
 		{
-			if (all->n_numbers <= 3)
-				tiny_sort(&all->pile_a, all);
-			presort(all);
+			// if (all->n_numbers <= 3)
+			// 	tiny_sort(&all->pile_a, all);
+			sorting_list(all);
 		}
 	}
 }

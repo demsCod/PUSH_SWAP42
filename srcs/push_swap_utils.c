@@ -6,7 +6,7 @@
 /*   By: mdembele <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 22:54:15 by mdembele          #+#    #+#             */
-/*   Updated: 2024/07/11 19:46:58 by mdembele         ###   ########.fr       */
+/*   Updated: 2024/07/13 04:09:03 by mdembele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,14 @@ t_stack	*create_node(int data, int index)
 	return (new_node);
 }
 
+t_instruction	*create_instruction(void)
+{
+	t_instruction	*new_node;
+
+	new_node = malloc(sizeof(t_instruction));
+	return (new_node);
+}
+
 t_stack	*last_node(t_stack **lst)
 {
 	if ((*lst) == NULL)
@@ -40,10 +48,6 @@ t_stack	*last_node(t_stack **lst)
 	return ((*lst));
 }
 
-void ft_remove_first(t_stack **a)
-{
-	(*a) = (*a)->next;
-}
 void	print_list(t_stack *list)
 {
 	while (list)
