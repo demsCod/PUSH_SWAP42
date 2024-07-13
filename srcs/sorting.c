@@ -1,253 +1,271 @@
 #include "push_swap.h"
 
-bool	bigger_than(int data1, int data2)
+t_stack	*bigger(t_stack *b)
 {
-	if (data1 > data2)
-		return (true);
-	else
-		return (false);
-}
-
-int	smallest(t_all *all)
-{
-	int		index;
-	int		small;
+	long		big;
 	t_stack	*node;
 
-	index = 0;
-	node = all->pile_a;
-	small = all->pile_a->data;
-	while (node->next)
+	node = b;
+	big = -2147483647;
+	while (b)
 	{
-		if (small > node->next->data)
+		if (big < b->data)
 		{
-			small = node->next->data;
-			index = node->next->index;
+			big = b->data;
+			node = b;
 		}
-		node = node->next;
+		b = b->next;
 	}
-	return (index);
+	return (node);
 }
-int	init_cheapest(t_all *all, int *cost_price, int *index)
-{
-	int		small;
-	t_stack	*node;
-	int		i;
 
+t_stack	*smaller(t_stack *b)
+{
+	long		small;
+	t_stack	*node;
+
+	node = b;
+	small = 2147483649;
+	while (b)
+	{
+		if (small > b->data)
+		{
+			small = b->data;
+			node = b;
+		}
+		b = b->next;
+	}
+	return (node);
+}
+void set_index (t_stack *node)
+{
+	int	i;
+	int len;
+	if (!node)
+		return;
 	i = 0;
-	*index = 0;
-	small = cost_price[i];
-	node = all->pile_a;
-	*index = node->index;
+	len = ft_stacksize(node);
 	while (node)
 	{
-		if (small > cost_price[i])
-		{
-			small = cost_price[i];
-			*index = node->index;
-		}
-		i++;
+		node->index = i;
+		if (i <= len / 2)
+			node->above_median = true;
+		else
+			node->above_median = false;
+		++i;
 		node = node->next;
 	}
-	return (small);
 }
 
-void	price_to_push_a(t_all *all, int index_a, int *price, t_instruction *is)
+void set_target (t_stack *a, t_stack *b)
 {
-	t_stack	*list_a;
+	t_stack *target;
+	t_stack *temp_b;
+	long diff;
 
-	*price = 0;
-	list_a = all->pile_a;
-	while (list_a->index != index_a)
+	while (a)
 	{
-		list_a = list_a->next;
-		++*price;
-	}
-	if (*price > ft_stacksize(all->pile_a) / 2)
-	{
-		*price = ft_stacksize(all->pile_a) - *price;
-		is->rra = *price;
-	}
-	else
-	{
-		is->ra = *price;
-		return ;
-	}
-}
-
-void	price_to_push_b(t_all *all, int index_b, int *price, t_instruction *is)
-{
-	t_stack	*list_a;
-
-	*price = 0;
-	list_a = all->pile_b;
-	while (list_a->index != index_b)
-	{
-		list_a = list_a->next;
-		++*price;
-	}
-	if (*price > ft_stacksize(all->pile_b) / 2)
-	{
-		*price = ft_stacksize(all->pile_b) - *price;
-		is->rrb = *price;
-	}
-	else
-	{
-		is->rb = *price;
-		return ;
-	}
-}
-
-void	find_target(t_all *all, int value, int *target_index)
-{
-	t_stack	*node_b;
-	int		diff;
-
-	node_b = all->pile_b;
-	diff = value - node_b->data;
-	*target_index = node_b->index;
-	while (node_b != NULL)
-	{
-		if (value > node_b->data)
+		temp_b = b;
+		diff = -2147483647;
+		while(temp_b)
 		{
-			if (diff > value - node_b->data)
+			if (temp_b->data < a->data && temp_b->data > diff)
 			{
-				diff = value - node_b->data;
-				*target_index = node_b->index;
+				diff = temp_b->data;
+				target = temp_b;
 			}
+			temp_b = temp_b->next;
 		}
-		else if (value < node_b->data)
-		{
-			if (diff > node_b->data - value)
-			{
-				diff = node_b->data - value;
-				*target_index = node_b->index;
-			}
-		}
-		node_b = node_b->next;
-	}
-}
-
-int	*init_target(t_all *all)
-{
-	t_stack	*a;
-	int		*tab_target_index;
-	int		i;
-
-	a = all->pile_a;
-	tab_target_index = malloc(sizeof(int) * ft_stacksize(a));
-	i = 0;
-	while (a->next)
-	{
-		find_target(all, a->data, &tab_target_index[i]);
-		++i;
+		if (diff == -2147483647)
+			a->target = bigger(b);
+		else
+			a->target = target;
 		a = a->next;
 	}
-	return (tab_target_index);
 }
 
-int	*init_cost(t_all *all, int *tab_target, t_instruction *comand)
+void set_target_b (t_stack *a, t_stack *b)
 {
-	t_stack	*a;
-	t_stack	*b;
-	int		*tab_cost;
-	int		i;
-	int		price;
-	int		j;
+	t_stack *target;
+	t_stack *current_a;
+	long diff;
 
-	a = all->pile_a;
-	b = all->pile_b;
-	price = 0;
-	tab_cost = malloc(sizeof(int) * ft_stacksize(a) + 1);
-	i = 0;
-	while (a->next)
+	while (b)
 	{
-		price_to_push_a(all, a->index, &price, comand);
-		tab_cost[i] = price;
-		++i;
+		current_a = a;
+		diff = 2147483648;
+		while(current_a)
+		{
+			if (current_a->data > b->data && current_a->data < diff)
+			{
+				diff = current_a->data;
+				target = current_a;
+			}
+			current_a = current_a->next;
+		}
+		if (diff == 2147483648)
+			b->target = smaller(a);
+		else
+			b->target = target;
+		b = b->next;
+	}
+}
+void set_price(t_stack *a, t_stack *b)
+{
+	int len_a;
+	int len_b;
+
+	len_a = ft_stacksize(a);
+	len_b = ft_stacksize(b);
+	while (a)
+	{
+		if (a->above_median == true)
+			a->price = a->index; 
+		else
+			a->price = len_a - a->index;
+		if (a->target->above_median == true)
+			a->price += a->target->index;
+		else
+			a->price += len_b - a->target->index;
 		a = a->next;
 	}
-	j = 0;
-	while (j < i)
-	{
-		price_to_push_b(all, tab_target[j], &price, comand);
-		tab_cost[j] += price;
-		++j;
-	}
-	return (tab_cost);
 }
 
-void	push_cheapest(t_all *all, t_instruction *is)
+void find_cheapest(t_stack *node)
 {
-	while(is->ra != 0)
+	t_stack *cheapest_node;
+	long price;
+
+	if (!node)
+		return;
+	price = 2147483648;
+	while(node)
 	{
-		rotate_a(all);
-		is->ra--;
+		if (node->price < price)
+		{
+			price = node->price;
+			cheapest_node = node;
+		}
+		node = node->next;
 	}
-	while(is->rra != 0)
+	cheapest_node->cheapeast = true;
+}
+void set_list_a(t_stack *a, t_stack *b)
+{
+	set_index(a);
+	set_index(b);
+	set_target(a, b);
+	set_price(a, b);
+	find_cheapest(a);
+}
+void set_list_b(t_stack *a, t_stack *b)
+{
+	set_index(a);
+	set_index(b);
+	set_target_b(a, b);
+}
+t_stack	*cheapest_to(t_stack *node)
+{
+	t_stack *cheap;
+
+	cheap = node;
+	while (node)
 	{
-		reverse_rotate_a(all);
-		is->rra--;
+		if (node->cheapeast == true)
+			cheap = node;
+		node = node->next;
 	}
-	while(is->rb != 0)
+	return (cheap);
+}
+void above_median_comand(t_all *all, t_stack *node_to_push)
+{
+	if (node_to_push->above_median && node_to_push->target->above_median)
 	{
-		rotate_b(all);
-		is->rb--;
+		while (all->pile_a != node_to_push && all->pile_b != node_to_push->target)
+			rev_rot_rot(all);
 	}
-	while(is->rrb != 0)
+	if (node_to_push->above_median)
 	{
-		reverse_rotate_b(all);
-		is->rrb--;
+		while (all->pile_a != node_to_push)
+			reverse_rotate_a(all);
 	}
+	if (node_to_push->target->above_median)
+	{
+		while (all->pile_b != node_to_push->target)
+			reverse_rotate_b(all);
+	}
+}
+
+void below_median_comand(t_all *all, t_stack *node_to_push)
+{
+	if ((!node_to_push->above_median) && (!node_to_push->target->above_median))
+	{
+		while (all->pile_a != node_to_push && all->pile_b != node_to_push->target)
+			ft_rot_rot(all);
+	}
+	if ((!node_to_push->above_median))
+	{
+		while (all->pile_a != node_to_push)
+			rotate_a(all);
+	}
+	if (!node_to_push->target->above_median)
+	{
+		while (all->pile_b != node_to_push->target)
+			rotate_b(all);
+	}
+}
+
+void exec_comand_a(t_all *all)
+{
+	t_stack *node_to_push;
+
+	node_to_push = cheapest_to(all->pile_a);
+	above_median_comand(all, node_to_push);
+	below_median_comand(all, node_to_push);
 	ft_push_b(all);
-}
-t_instruction *find_comand (t_instruc_first *comand, int index)
-{
-	t_instruction *i;
 
-	i = comand->first;
-	while (i->next && index > 0)
+}
+void exec_comand_b(t_all *all)
+{
+	while(all->pile_a != all->pile_b->target)
 	{
-		i = i->next;
-		index--;
+		if(!all->pile_b->target->above_median)
+			reverse_rotate_a(all);
+		else
+			rotate_a(all);
 	}
-	return (i);
+	ft_push_a(all);
+
 }
 void	sorting_list(t_all *all)
 {
-	bool is_sort;
-
-	int i;
-	int *tab_target_index;
-	int *tab_cost;
-	int cost;
-	int index_to_push;
-	int nb;
-	t_instruction *comand;
-	t_instruc_first *first;
-
-	t_stack *a;
-	t_stack *b;
-
-	i = 0;
-	nb = ft_stacksize(all->pile_a);
-	a = all->pile_a;
-	b = all->pile_b;
-	is_sort = false;
-	print_list(all->pile_a);
-	ft_push_b(all);
-	ft_push_b(all);
-	comand = calloc(sizeof(t_instruction) , 1);
-	first = malloc(sizeof(t_instruc_first));
-	first->first = comand;
-	while (nb != ft_stacksize(all->pile_b) + 4)
+	int len_a;
+	t_stack *pos;
+	len_a = ft_stacksize(all->pile_a);
+	if (len_a-- > 3 && list_is_sorted(&all->pile_a) == 1)
+		ft_push_b(all);
+	if (len_a-- > 3 && list_is_sorted(&all->pile_a) == 1)
+		ft_push_b(all);
+	while(len_a-- > 3 && list_is_sorted(&all->pile_a) == 1)
 	{
-		tab_target_index = init_target(all);
-		tab_cost = init_cost(all, tab_target_index, comand);
-		cost = init_cheapest(all, tab_cost, &index_to_push);
-		comand->next = create_instruction();
-		comand = comand->next;
+		set_list_a(all->pile_a, all->pile_b);
+		exec_comand_a(all);
 	}
-	push_cheapest(all, find_comand(first, index_to_push));
-	print_list(all->pile_b);
+	tiny_sort(&all->pile_a, all);
+	while(all->pile_b)
+	{
+		set_list_b(all->pile_a, all->pile_b);
+		exec_comand_b(all);
+	}
+	set_index(all->pile_a);
+	pos = smaller(all->pile_a);
+	print_list(all->pile_a);
+	while(all->pile_a != pos)
+	{
+		if (!pos->above_median)
+			reverse_rotate_a(all);
+		else
+			rotate_a(all);
+	}
+	print_list(all->pile_a);
 }

@@ -9,13 +9,12 @@ int	main(int ac, char **av)
 	if (ac == 2)
 	{
 		parse_args(av[1], &all->pile_a, all);
-		//print_list(all->pile_a);
 		if (list_is_sorted(&all->pile_a) == 0)
 			printf("is sorted\n");
 		else
 		{
-			// if (all->n_numbers <= 3)
-			// 	tiny_sort(&all->pile_a, all);
+			if (all->n_numbers <= 3)
+				tiny_sort(&all->pile_a, all);
 			sorting_list(all);
 		}
 	}

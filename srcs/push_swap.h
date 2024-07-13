@@ -16,6 +16,7 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <limits.h>
 
 typedef struct s_instruction
 {
@@ -23,17 +24,18 @@ typedef struct s_instruction
 	size_t			ra;
 	size_t			rrb;
 	size_t			rb;
-	struct s_instruction	*next;
 }					t_instruction;
 typedef struct node
 {
 	int				data;
 	int				index;
 	int				price;
+	bool			above_median;
 	bool			big;
 	bool			small;
-	int				target_index;
-	t_instruction	*instruction;
+	bool			cheapeast;
+	struct node		*target;
+	t_instruction	instruction;
 	struct node		*next;
 }					t_stack;
 
@@ -41,11 +43,6 @@ typedef struct list
 {
 	t_stack			*first;
 }					t_first;
-
-typedef struct instruct_list
-{
-	t_instruction	*first;
-}					t_instruc_first;
 
 typedef struct t_all
 {
