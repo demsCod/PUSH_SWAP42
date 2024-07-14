@@ -6,7 +6,7 @@
 /*   By: mdembele <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 22:33:19 by mdembele          #+#    #+#             */
-/*   Updated: 2024/07/12 18:04:40 by mdembele         ###   ########.fr       */
+/*   Updated: 2024/07/14 19:37:53 by mdembele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,13 @@ void	parse_args(char *av, t_stack **list, t_all *all)
 		exit(EXIT_FAILURE);
 	while (tab_char_numbers[count])
 		count++;
-	tab_int_numbers = calloc(sizeof(int), count);
+	tab_int_numbers = ft_calloc(sizeof(int), count);
 	while (tab_char_numbers[i])
 	{
 		tab_int_numbers[i] = ft_atoi(tab_char_numbers[i]);
 		i++;
 	}
+	ft_free_2d((void ***)&tab_char_numbers);
 	while (i != 0)
 	{
 		save = create_node(tab_int_numbers[j], j);
@@ -83,5 +84,6 @@ void	parse_args(char *av, t_stack **list, t_all *all)
 		j++;
 		i--;
 	}
+	free(tab_int_numbers);
 	all->n_numbers = i;
 }

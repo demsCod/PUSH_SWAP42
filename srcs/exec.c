@@ -6,38 +6,47 @@
 /*   By: mdembele <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:33:56 by mdembele          #+#    #+#             */
-/*   Updated: 2024/07/12 20:35:00 by mdembele         ###   ########.fr       */
+/*   Updated: 2024/07/14 17:36:04 by mdembele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	rra(t_all *all, size_t numbers)
+
+void above_median_comand(t_all *all, t_stack *node_to_push)
 {
-	while (numbers--)
+	if (node_to_push->above_median && node_to_push->target->above_median)
 	{
-		reverse_rotate_a(all);
+		while (all->pile_a != node_to_push && all->pile_b != node_to_push->target)
+			rev_rot_rot(all);
 	}
-}
-void	ra(t_all *all, size_t numbers)
-{
-	while (numbers--)
+	if (node_to_push->above_median)
 	{
-		rotate_a(all);
+		while (all->pile_a != node_to_push)
+			reverse_rotate_a(all);
+	}
+	if (node_to_push->target->above_median)
+	{
+		while (all->pile_b != node_to_push->target)
+			reverse_rotate_b(all);
 	}
 }
 
-void	rrb(t_all *all, size_t numbers)
+void below_median_comand(t_all *all, t_stack *node_to_push)
 {
-	while (numbers--)
+	if ((!node_to_push->above_median) && (!node_to_push->target->above_median))
 	{
-		reverse_rotate_b(all);
+		while (all->pile_a != node_to_push && all->pile_b != node_to_push->target)
+			ft_rot_rot(all);
 	}
-}
-void	rb(t_all *all, size_t numbers)
-{
-	while (numbers--)
+	if ((!node_to_push->above_median))
 	{
-		rotate_b(all);
+		while (all->pile_a != node_to_push)
+			rotate_a(all);
+	}
+	if (!node_to_push->target->above_median)
+	{
+		while (all->pile_b != node_to_push->target)
+			rotate_b(all);
 	}
 }

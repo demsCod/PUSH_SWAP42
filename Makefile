@@ -6,6 +6,9 @@ SRC = 	./srcs/instruction/push_instrucion.c \
 		./srcs/instruction/rot_instruction.c \
 		./srcs/instruction/swap_instruction.c \
 		./srcs/parcing_args.c\
+		./srcs/exec.c\
+		./srcs/setting.c\
+		./srcs/sorting_utils.c\
 		./srcs/main.c\
 		./srcs/push_swap_utils.c\
 		./srcs/utils.c\

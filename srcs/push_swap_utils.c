@@ -6,7 +6,7 @@
 /*   By: mdembele <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 22:54:15 by mdembele          #+#    #+#             */
-/*   Updated: 2024/07/13 04:09:03 by mdembele         ###   ########.fr       */
+/*   Updated: 2024/07/14 21:30:36 by mdembele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,6 @@ t_stack	*create_node(int data, int index)
 	new_node->data = data;
 	new_node->index = index;
 	new_node->next = NULL;
-	return (new_node);
-}
-
-t_instruction	*create_instruction(void)
-{
-	t_instruction	*new_node;
-
-	new_node = malloc(sizeof(t_instruction));
 	return (new_node);
 }
 
@@ -85,62 +77,3 @@ void tiny_sort (t_stack **list, t_all *all)
 	if ((*list)->data > (*list)->next->data)
 		ft_swap_a(all);
 }
-
-// int	main(void)
-// {
-// 	stack_a	*list;
-// 	stack_b *pile;
-
-
-// 	pile = NULL;
-// 	list = create_node(1);
-// 	list->next = create_node(2);
-// 	list->next->next = create_node(3);
-// 	list->next->next->next = create_node(4);
-// 	list->next->next->next->next = create_node(5);
-
-// 	pile = create_node(1);
-// 	pile->next = create_node(2);
-// 	pile->next->next = create_node(3);
-// 	pile->next->next->next = create_node(4);
-// 	pile->next->next->next->next = create_node(5);
-
-// 	//ft_swap_swap(&list, &pile);
-
-// 	printf("\n        |ROTATE A|\n\n");
-// 	print_list(list);
-// 	rotate_a(&list);
-// 	printf("--------------------------------------------\n");
-// 	print_list(list);
-
-// 	printf("\n        |REVERSE ROTATE|\n\n");
-// 	print_list(list);
-// 	reverse_rotate_a(&list);
-// 	printf("--------------------------------------------\n");
-// 	print_list(list);
-
-// 	printf("\n        |SWAP SWAP|\n\n");
-// 	print_list(list);
-// 	print_list(pile);
-// 	ft_swap_swap(&list, &pile);
-// 	printf("--------------------------------------------\n");
-// 	print_list(list);
-// 	print_list(pile);
-
-// 	printf("\n        |ROTATE_A_B|\n\n");
-// 	print_list(list);
-// 	print_list(pile);
-// 	ft_rot_rot(&list, &pile);
-// 	printf("--------------------------------------------\n");
-// 	print_list(list);
-// 	print_list(pile);
-
-// 	printf("\n        |REV_ROTATE_A_B|\n\n");
-// 	print_list(list);
-// 	print_list(pile);
-// 	rev_rot_rot(&list, &pile);
-// 	printf("--------------------------------------------\n");
-// 	print_list(list);
-// 	print_list(pile);
-
-// }

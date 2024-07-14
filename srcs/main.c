@@ -1,5 +1,15 @@
 #include "push_swap.h"
 
+void ft_free_nodes(t_stack **node)
+{
+	t_stack *next_node;
+	while(*node)
+	{
+		next_node = (*node)->next;
+		free(*node);
+		*node = next_node;
+	}
+}
 int	main(int ac, char **av)
 {
 	t_all *all;
@@ -13,9 +23,11 @@ int	main(int ac, char **av)
 			printf("is sorted\n");
 		else
 		{
-			if (all->n_numbers <= 3)
+			if (ft_stacksize(all->pile_a) <= 3)
 				tiny_sort(&all->pile_a, all);
 			sorting_list(all);
+			ft_free_nodes(&all->pile_a);
+			free(all);
 		}
 	}
 }
