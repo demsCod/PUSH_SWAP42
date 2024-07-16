@@ -7,6 +7,7 @@ SRC = 	./srcs/instruction/push_instrucion.c \
 		./srcs/instruction/swap_instruction.c \
 		./srcs/parcing_args.c\
 		./srcs/exec.c\
+		./srcs/free_and_exit.c\
 		./srcs/setting.c\
 		./srcs/sorting_utils.c\
 		./srcs/main.c\

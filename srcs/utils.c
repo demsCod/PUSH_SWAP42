@@ -6,7 +6,7 @@
 /*   By: mdembele <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 23:10:23 by mdembele          #+#    #+#             */
-/*   Updated: 2024/07/09 17:11:42 by mdembele         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:00:05 by mdembele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,3 @@ void	ft_stack_back(t_stack **lst, t_stack *new)
 		temp = temp->next;
 	temp->next = new;
 }
-

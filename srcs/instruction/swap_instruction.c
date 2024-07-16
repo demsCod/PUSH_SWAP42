@@ -6,7 +6,7 @@
 /*   By: mdembele <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 22:42:25 by mdembele          #+#    #+#             */
-/*   Updated: 2024/07/09 19:56:37 by mdembele         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:04:38 by mdembele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 void	ft_swap(t_stack **list)
 {
 	t_stack	*first;
-
-	t_stack *tmp;
+	t_stack	*tmp;
 
 	if (!list || !(*list) || !(*list)->next)
 		return ;
@@ -35,12 +34,14 @@ void	ft_swap_b(t_all *all)
 	ft_swap(&all->pile_b);
 	ft_putendl_fd("sb", 1);
 }
+
 void	ft_swap_a(t_all *all)
 {
 	ft_swap(&all->pile_a);
 	ft_putendl_fd("sa", 1);
 }
-void ft_swap_swap(t_all *all)
+
+void	ft_swap_swap(t_all *all)
 {
 	ft_swap_a(all);
 	ft_swap_b(all);

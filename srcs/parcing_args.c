@@ -6,12 +6,27 @@
 /*   By: mdembele <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 22:33:19 by mdembele          #+#    #+#             */
-/*   Updated: 2024/07/14 19:37:53 by mdembele         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:17:03 by mdembele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+bool	is_double(int n, t_stack *stack)
+{
+	t_stack	*temp;
+
+	if (!stack)
+		return (false);
+	temp = stack;
+	while (temp)
+	{
+		if (n == temp->data)
+			return (true);
+		temp = temp->next;
+	}
+	return (false);
+}
 
 char	*join_command(char **av)
 {
@@ -55,66 +70,58 @@ int	verif_numbers(char **str)
 
 void	parse_args(char *av, t_stack **list, t_all *all)
 {
-	char	**tab_char_numbers;
-	int		*tab_int_numbers;
-	int		count;
-	int		j;
 	t_stack	*save;
-	int		i;
 
-	i = 0;
-	count = 0;
-	j = 0;
-	save = (*list);
-	tab_char_numbers = ft_split(av, 32);
-	if (verif_numbers(tab_char_numbers) == -1)
-		exit(EXIT_FAILURE);
-	while (tab_char_numbers[count])
-		count++;
-	tab_int_numbers = ft_calloc(sizeof(int), count);
-	while (tab_char_numbers[i])
+	free((all->i = 0, all->j = 0, save = (*list), NULL));
+	all->tab_char_numbers = ft_split(av, 32);
+	if (verif_numbers(all->tab_char_numbers) == -1)
+		free_and_exit("Error", EXIT_FAILURE, all);
+	while (all->tab_char_numbers[all->i])
+		all->i++;
+	all->tab_int_numbers = ft_calloc(sizeof(long long), all->i);
+	all->i = 0;
+	while (all->tab_char_numbers[all->i])
 	{
-		tab_int_numbers[i] = ft_atoi(tab_char_numbers[i]);
-		i++;
+		all->tab_int_numbers[all->i] = ft_atoi(all->tab_char_numbers[all->i]);
+		all->i++;
 	}
-	ft_free_2d((void ***)&tab_char_numbers);
-	while (i != 0)
+	while (all->i-- > 0)
 	{
-		save = create_node(tab_int_numbers[j], j);
+		if (is_double(all->tab_int_numbers[all->j], *list)
+			|| all->tab_int_numbers[all->j] > INT_MAX
+			|| all->tab_int_numbers[all->j] < INT_MIN)
+			free_and_exit("Error", EXIT_FAILURE, all);
+		save = create_node(all->tab_int_numbers[all->j], all->j);
 		ft_stack_back(list, save);
-		j++;
-		i--;
+		all->j++;
 	}
-	free(tab_int_numbers);
-	all->n_numbers = i;
 }
-void multi_parse(char **av, t_all *all)
-{
-	int i;
-	int count;
-	int *tab_int_numbers;
-	t_stack *save;
-	int j;
 
-	j = 0;
-	i = 0;
-	count = 0;
-	av = av + 1;
+void	multi_parse(char **av, t_all *all)
+{
+	int		count;
+	t_stack	*save;
+	int		j;
+
+	free((all->i = 0, j = 0, count = 0, av = av + 1, NULL));
 	if (verif_numbers(av) == -1)
-		exit(EXIT_FAILURE);
+		free_and_exit("Error", EXIT_FAILURE, all);
 	while (av[count])
 		count++;
-	tab_int_numbers = ft_calloc(sizeof(int), count);
-	while (av[i])
+	all->tab_int_numbers = ft_calloc(sizeof(long long), count);
+	while (av[all->i])
 	{
-		tab_int_numbers[i] = ft_atoi(av[i]);
-		i++;
+		all->tab_int_numbers[all->i] = ft_atoi(av[all->i]);
+		all->i++;
 	}
-	while (i != 0)
+	while (all->i > 0)
 	{
-		save = create_node(tab_int_numbers[j], j);
+		if (is_double(all->tab_int_numbers[j], all->pile_a)
+			|| all->tab_int_numbers[j] > INT_MAX
+			|| all->tab_int_numbers[j] < INT_MIN)
+			free_and_exit("Error", EXIT_FAILURE, all);
+		save = create_node(all->tab_int_numbers[j], j);
 		ft_stack_back(&all->pile_a, save);
-		j++;
-		i--;
+		free((j++, all->i--, NULL));
 	}
 }

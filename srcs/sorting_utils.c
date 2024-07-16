@@ -6,7 +6,7 @@
 /*   By: mdembele <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:29:31 by mdembele          #+#    #+#             */
-/*   Updated: 2024/07/14 17:37:55 by mdembele         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:47:18 by mdembele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_stack	*bigger(t_stack *b)
 {
-	long		big;
+	long	big;
 	t_stack	*node;
 
 	node = b;
@@ -33,7 +33,7 @@ t_stack	*bigger(t_stack *b)
 
 t_stack	*smaller(t_stack *b)
 {
-	long		small;
+	long	small;
 	t_stack	*node;
 
 	node = b;
@@ -50,15 +50,15 @@ t_stack	*smaller(t_stack *b)
 	return (node);
 }
 
-void find_cheapest(t_stack *node)
+void	find_cheapest(t_stack *node)
 {
-	t_stack *cheapest_node;
-	long price;
+	t_stack	*cheapest_node;
+	long	price;
 
 	if (!node)
-		return;
+		return ;
 	price = 2147483648;
-	while(node)
+	while (node)
 	{
 		if (node->price < price)
 		{
@@ -72,7 +72,7 @@ void find_cheapest(t_stack *node)
 
 t_stack	*cheapest_to(t_stack *node)
 {
-	t_stack *cheap;
+	t_stack	*cheap;
 
 	cheap = node;
 	while (node)
@@ -82,4 +82,16 @@ t_stack	*cheapest_to(t_stack *node)
 		node = node->next;
 	}
 	return (cheap);
+}
+
+void	move_on_top(t_all *all, t_stack *pos)
+{
+	while (all->pile_a != pos)
+	{
+		set_index(all->pile_a);
+		if (!pos->above_median)
+			reverse_rotate_a(all);
+		else
+			rotate_a(all);
+	}
 }

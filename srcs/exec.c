@@ -6,17 +6,18 @@
 /*   By: mdembele <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:33:56 by mdembele          #+#    #+#             */
-/*   Updated: 2024/07/14 17:36:04 by mdembele         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:02:40 by mdembele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void above_median_comand(t_all *all, t_stack *node_to_push)
+void	above_median_comand(t_all *all, t_stack *node_to_push)
 {
 	if (node_to_push->above_median && node_to_push->target->above_median)
 	{
-		while (all->pile_a != node_to_push && all->pile_b != node_to_push->target)
+		while (all->pile_a != node_to_push
+			&& all->pile_b != node_to_push->target)
 		{
 			ft_rot_rot(all);
 		}
@@ -36,11 +37,12 @@ void above_median_comand(t_all *all, t_stack *node_to_push)
 	}
 }
 
-void below_median_comand(t_all *all, t_stack *node_to_push)
+void	below_median_comand(t_all *all, t_stack *node_to_push)
 {
 	if ((!node_to_push->above_median) && (!node_to_push->target->above_median))
 	{
-		while (all->pile_a != node_to_push && all->pile_b != node_to_push->target)
+		while (all->pile_a != node_to_push
+			&& all->pile_b != node_to_push->target)
 			rev_rot_rot(all);
 	}
 	set_index(all->pile_a);

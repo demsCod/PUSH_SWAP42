@@ -6,7 +6,7 @@
 /*   By: mdembele <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:31:37 by mdembele          #+#    #+#             */
-/*   Updated: 2024/07/14 21:33:17 by mdembele         ###   ########.fr       */
+/*   Updated: 2024/07/16 20:10:33 by mdembele         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	set_list_a(t_stack *a, t_stack *b)
 	set_price(a, b);
 	find_cheapest(a);
 }
+
 void	set_list_b(t_stack *a, t_stack *b)
 {
 	set_index(a);
@@ -39,6 +40,7 @@ void	exec_comand_a(t_all *all)
 	below_median_comand(all, node_to_push);
 	ft_push_b(all);
 }
+
 void	exec_comand_b(t_all *all)
 {
 	while (all->pile_a != all->pile_b->target)
@@ -50,6 +52,7 @@ void	exec_comand_b(t_all *all)
 	}
 	ft_push_a(all);
 }
+
 void	sorting_list(t_all *all)
 {
 	int		len_a;
@@ -65,8 +68,6 @@ void	sorting_list(t_all *all)
 		set_list_a(all->pile_a, all->pile_b);
 		exec_comand_a(all);
 	}
-	print_list(all->pile_a);
-	print_list(all->pile_b);
 	tiny_sort(&all->pile_a, all);
 	while (all->pile_b)
 	{
@@ -75,12 +76,5 @@ void	sorting_list(t_all *all)
 	}
 	set_index(all->pile_a);
 	pos = smaller(all->pile_a);
-	while (all->pile_a != pos)
-	{
-		set_index(all->pile_a);
-		if (!pos->above_median)
-			reverse_rotate_a(all);
-		else
-			rotate_a(all);
-	}
+	move_on_top(all, pos);
 }
