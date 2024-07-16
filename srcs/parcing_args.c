@@ -12,6 +12,7 @@
 
 #include "push_swap.h"
 
+
 char	*join_command(char **av)
 {
 	size_t	i;
@@ -86,4 +87,34 @@ void	parse_args(char *av, t_stack **list, t_all *all)
 	}
 	free(tab_int_numbers);
 	all->n_numbers = i;
+}
+void multi_parse(char **av, t_all *all)
+{
+	int i;
+	int count;
+	int *tab_int_numbers;
+	t_stack *save;
+	int j;
+
+	j = 0;
+	i = 0;
+	count = 0;
+	av = av + 1;
+	if (verif_numbers(av) == -1)
+		exit(EXIT_FAILURE);
+	while (av[count])
+		count++;
+	tab_int_numbers = ft_calloc(sizeof(int), count);
+	while (av[i])
+	{
+		tab_int_numbers[i] = ft_atoi(av[i]);
+		i++;
+	}
+	while (i != 0)
+	{
+		save = create_node(tab_int_numbers[j], j);
+		ft_stack_back(&all->pile_a, save);
+		j++;
+		i--;
+	}
 }

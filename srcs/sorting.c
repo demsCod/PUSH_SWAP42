@@ -33,6 +33,9 @@ void	exec_comand_a(t_all *all)
 
 	node_to_push = cheapest_to(all->pile_a);
 	above_median_comand(all, node_to_push);
+	set_index(all->pile_a);
+	set_index(all->pile_b);
+	node_to_push = cheapest_to(all->pile_a);
 	below_median_comand(all, node_to_push);
 	ft_push_b(all);
 }
@@ -62,6 +65,8 @@ void	sorting_list(t_all *all)
 		set_list_a(all->pile_a, all->pile_b);
 		exec_comand_a(all);
 	}
+	print_list(all->pile_a);
+	print_list(all->pile_b);
 	tiny_sort(&all->pile_a, all);
 	while (all->pile_b)
 	{
@@ -72,10 +77,10 @@ void	sorting_list(t_all *all)
 	pos = smaller(all->pile_a);
 	while (all->pile_a != pos)
 	{
+		set_index(all->pile_a);
 		if (!pos->above_median)
 			reverse_rotate_a(all);
 		else
 			rotate_a(all);
 	}
-	print_list(all->pile_a);
 }

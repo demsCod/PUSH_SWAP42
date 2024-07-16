@@ -45,6 +45,7 @@ typedef struct t_all
 
 int					ft_stacksize(t_stack *lst);
 void				rotate_a(t_all *all);
+void 				multi_parse(char **av, t_all *all);
 void				rotate_b(t_all *all);
 void				set_index(t_stack *node);
 void				set_target(t_stack *a, t_stack *b);

@@ -99,9 +99,19 @@ void set_price(t_stack *a, t_stack *b)
 		else
 			a->price = len_a - a->index;
 		if (a->target->above_median == true)
-			a->price += a->target->index;
+		{
+			// if (a->above_median == true && a->index == a->target->index)
+			// 		a->price += 0;
+			// else
+				a->price += a->target->index;
+		}
 		else
-			a->price += len_b - a->target->index;
+		{
+			// if (a->above_median == false  &&a->target->index - len_b == a->index - len_a)
+			// 	a->price += 0;
+			// else	
+				a->price += len_b - a->target->index;
+		}
 		a = a->next;
 	}
 }

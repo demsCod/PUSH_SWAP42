@@ -43,7 +43,7 @@ void reverse_rotate_a(t_all *all)
 
 void rev_rot_rot(t_all *all)
 {
-	reverse_rotate(&all->pile_b);
+	reverse_rotate(&all->pile_a);
 	reverse_rotate(&all->pile_b);
 	ft_putendl_fd("rrr", 1);
 }

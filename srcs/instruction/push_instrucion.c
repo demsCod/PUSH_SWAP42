@@ -28,6 +28,8 @@ void ft_push(t_stack **a, t_stack **b)
 
 void ft_push_a(t_all *all)
 {
+	if(!all->pile_b)
+		return;
 	ft_push(&all->pile_b, &all->pile_a);
 	ft_putendl_fd("pa", 1);
 	return ;
